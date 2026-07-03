@@ -1,6 +1,7 @@
 import { PotMark } from "@/components/PotMark";
 import { maakLegeMaand, dupliceerMaand } from "@/lib/actions";
 import { formatPeriodeLabel, vorigePeriode } from "@/lib/format";
+import { MonthNav } from "./MonthNav";
 
 export function EmptyMaandState({
   periode,
@@ -15,10 +16,7 @@ export function EmptyMaandState({
   return (
     <div className="flex h-full flex-col">
       <div className="flex-none border-b border-line-soft bg-white px-5 pb-5 pt-4">
-        <div className="flex items-center gap-2.5">
-          <PotMark size={30} />
-          <div className="text-xl font-bold tracking-tight">{formatPeriodeLabel(periode)}</div>
-        </div>
+        <MonthNav periode={periode} />
         <div className="mt-4 rounded-[14px] border border-[#e7e4dc] bg-field px-4 py-3.5">
           <div className="text-[12.5px] font-semibold text-ink-secondary">netto inkomen deze maand</div>
           <div className="mt-1.5 text-[26px] font-bold text-line-input">€ 0,00</div>

@@ -1,5 +1,5 @@
 import { getMaandVoorPeriode, getVorigeMaand, groepeerPotjesPerCategorie } from "@/lib/queries";
-import { periodeVanDatum, vorigePeriode } from "@/lib/format";
+import { standaardPeriode } from "@/lib/format";
 import { MonthHeader } from "./_components/MonthHeader";
 import { CategoryGroup } from "./_components/CategoryGroup";
 import { EmptyMaandState } from "./_components/EmptyMaandState";
@@ -11,7 +11,7 @@ export default async function OverzichtPage({
   searchParams: Promise<{ periode?: string; add?: string; edit?: string }>;
 }) {
   const params = await searchParams;
-  const periode = params.periode ?? periodeVanDatum(new Date());
+  const periode = params.periode ?? standaardPeriode(new Date());
   const editingPotjeId = params.edit ? Number(params.edit) : null;
   const maand = await getMaandVoorPeriode(periode);
 
@@ -34,7 +34,6 @@ export default async function OverzichtPage({
         ontvangen={ontvangen}
         toegewezen={toegewezen}
         resterend={resterend}
-        vorigePeriode={vorigePeriode(periode)}
       />
       <div className="flex-1 px-3.5 pb-6">
         {groepen.map((groep) => (
