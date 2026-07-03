@@ -5,3 +5,12 @@ node_modules
 public/sw.js
 public/swe-worker*.js
 *.tsbuildinfo
+
+# Android/bubblewrap: keystore en wachtwoorden nooit in git, build-output ook niet
+android/*.keystore
+android/keystore-password.txt
+android/*.apk
+android/*.aab
+android/.gradle
+android/build
+android/app/build

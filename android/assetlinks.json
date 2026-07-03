@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.frankleef.potjes.twa",
+        "sha256_cert_fingerprints": ["A6:2C:50:40:45:13:98:EE:96:93:8F:A1:2B:D4:2E:71:3C:EA:ED:CC:81:B8:7B:C0:EC:2D:C4:9A:0C:F4:46:30"]
+      }
+    }]
