@@ -8,10 +8,11 @@ import type { Categorie } from "@/drizzle/schema";
 export default async function OverzichtPage({
   searchParams,
 }: {
-  searchParams: Promise<{ periode?: string; add?: string }>;
+  searchParams: Promise<{ periode?: string; add?: string; edit?: string }>;
 }) {
   const params = await searchParams;
   const periode = params.periode ?? periodeVanDatum(new Date());
+  const editingPotjeId = params.edit ? Number(params.edit) : null;
   const maand = await getMaandVoorPeriode(periode);
 
   if (!maand) {
@@ -43,6 +44,7 @@ export default async function OverzichtPage({
             maandId={maand.id}
             periode={periode}
             open={params.add === (groep.categorie as Categorie)}
+            editingPotjeId={editingPotjeId}
           />
         ))}
       </div>

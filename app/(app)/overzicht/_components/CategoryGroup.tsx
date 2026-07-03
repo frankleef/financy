@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PotRow } from "./PotRow";
 import { AddPotjeForm } from "./AddPotjeForm";
+import { EditPotjeForm } from "./EditPotjeForm";
 import { formatEuro } from "@/lib/format";
 import type { CategorieGroep } from "@/lib/queries";
 
@@ -9,11 +10,13 @@ export function CategoryGroup({
   maandId,
   periode,
   open,
+  editingPotjeId,
 }: {
   groep: CategorieGroep;
   maandId: number;
   periode: string;
   open: boolean;
+  editingPotjeId: number | null;
 }) {
   return (
     <div className="mt-4">
@@ -22,9 +25,13 @@ export function CategoryGroup({
         <span className="text-xs text-ink-faint">{formatEuro(groep.subtotaal)}</span>
       </div>
       <div className="overflow-hidden rounded-card border border-line-soft bg-white">
-        {groep.potjes.map((potje) => (
-          <PotRow key={potje.id} potje={potje} />
-        ))}
+        {groep.potjes.map((potje) =>
+          potje.id === editingPotjeId ? (
+            <EditPotjeForm key={potje.id} potje={potje} periode={periode} />
+          ) : (
+            <PotRow key={potje.id} potje={potje} periode={periode} />
+          )
+        )}
         {open ? (
           <AddPotjeForm maandId={maandId} categorie={groep.categorie} periode={periode} />
         ) : (

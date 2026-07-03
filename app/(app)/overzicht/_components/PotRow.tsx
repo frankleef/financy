@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { toggleAfgevinkt } from "@/lib/actions";
 import { formatEuro } from "@/lib/format";
 import type { Potje } from "@/drizzle/schema";
 
-export function PotRow({ potje }: { potje: Potje }) {
+export function PotRow({ potje, periode }: { potje: Potje; periode: string }) {
   const [afgevinkt, setAfgevinkt] = useState(potje.afgevinkt);
   const [isPending, startTransition] = useTransition();
   const isVast = potje.type === "vast";
@@ -56,6 +57,16 @@ export function PotRow({ potje }: { potje: Potje }) {
         </span>
       </span>
       <span className="text-[15px] font-bold tabular-nums">{formatEuro(potje.bedrag)}</span>
+      <Link
+        href={`/overzicht?edit=${potje.id}&periode=${periode}`}
+        aria-label={`${potje.naam} bewerken`}
+        className="-mr-1 flex h-7 w-7 flex-none items-center justify-center text-ink-faint"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+        </svg>
+      </Link>
     </label>
   );
 }

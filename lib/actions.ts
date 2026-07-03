@@ -113,6 +113,40 @@ export async function maakPotjeForm(
   redirect(`/overzicht?periode=${periode}`);
 }
 
+export async function updatePotje(input: {
+  potjeId: number;
+  naam: string;
+  type: PotjeType;
+  bedrag: number | null;
+}) {
+  await requireSession();
+  const naam = input.naam.trim();
+  if (!naam) throw new Error("Naam is verplicht");
+
+  await db
+    .update(potjes)
+    .set({ naam, type: input.type, bedrag: euroNaarString(input.bedrag) })
+    .where(eq(potjes.id, input.potjeId));
+
+  revalidatePath("/overzicht");
+}
+
+export async function updatePotjeForm(potjeId: number, periode: string, formData: FormData) {
+  const naam = String(formData.get("naam") ?? "");
+  const type = (String(formData.get("type") ?? "vast") === "variabel" ? "variabel" : "vast") as PotjeType;
+  const bedragRuw = String(formData.get("bedrag") ?? "").replace(",", ".").trim();
+  const bedrag = bedragRuw ? Number(bedragRuw) : null;
+
+  await updatePotje({
+    potjeId,
+    naam,
+    type,
+    bedrag: bedrag !== null && !Number.isNaN(bedrag) ? bedrag : null,
+  });
+
+  redirect(`/overzicht?periode=${periode}`);
+}
+
 export async function verwijderPotje(potjeId: number) {
   await requireSession();
   await db.delete(potjes).where(eq(potjes.id, potjeId));
