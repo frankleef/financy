@@ -9,6 +9,7 @@ export function MonthHeader({
   ontvangen,
   toegewezen,
   resterend,
+  afgerond,
 }: {
   periode: string;
   maandId: number;
@@ -16,6 +17,7 @@ export function MonthHeader({
   ontvangen: number;
   toegewezen: number;
   resterend: number;
+  afgerond: boolean;
 }) {
   return (
     <div className="flex-none border-b border-line-soft bg-white px-5 pb-5 pt-4">
@@ -23,7 +25,7 @@ export function MonthHeader({
 
       <div className="mt-4 rounded-[14px] border border-[#e7e4dc] bg-field px-4 py-3.5">
         <div className="text-[12.5px] font-semibold text-ink-secondary">netto inkomen deze maand</div>
-        <IncomeInput maandId={maandId} initieelBedrag={nettoInkomen} />
+        <IncomeInput maandId={maandId} initieelBedrag={nettoInkomen} disabled={afgerond} />
       </div>
 
       <TotalsStrip ontvangen={ontvangen} toegewezen={toegewezen} resterend={resterend} />

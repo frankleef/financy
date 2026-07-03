@@ -6,9 +6,11 @@ import { updateNettoInkomen } from "@/lib/actions";
 export function IncomeInput({
   maandId,
   initieelBedrag,
+  disabled = false,
 }: {
   maandId: number;
   initieelBedrag: string | null;
+  disabled?: boolean;
 }) {
   const [waarde, setWaarde] = useState(
     initieelBedrag ? Number(initieelBedrag).toFixed(2).replace(".", ",") : ""
@@ -34,7 +36,8 @@ export function IncomeInput({
         aria-label="netto inkomen deze maand"
         onChange={(e) => setWaarde(e.target.value)}
         onBlur={opslaan}
-        className="w-full border-none bg-transparent text-[26px] font-bold text-ink outline-none placeholder:text-line-input"
+        disabled={disabled}
+        className="w-full border-none bg-transparent text-[26px] font-bold text-ink outline-none placeholder:text-line-input disabled:text-ink-muted"
       />
     </div>
   );

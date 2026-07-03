@@ -54,3 +54,10 @@ export function euroNaarString(bedrag: number | null): string | null {
   if (bedrag === null || Number.isNaN(bedrag)) return null;
   return bedrag.toFixed(2);
 }
+
+export function parseEuroInput(ruw: string): number | null {
+  const genormaliseerd = ruw.replace(",", ".").trim();
+  if (!genormaliseerd) return null;
+  const n = Number(genormaliseerd);
+  return Number.isNaN(n) ? null : n;
+}

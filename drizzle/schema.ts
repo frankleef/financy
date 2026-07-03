@@ -84,6 +84,7 @@ export const maanden = pgTable("maanden", {
   // netto inkomen komt op 1 rekening binnen, altijd opnieuw invullen
   nettoInkomen: numeric("netto_inkomen", { precision: 10, scale: 2 }),
   gebaseerdOpMaandId: integer("gebaseerd_op_maand_id"),
+  afgerond: boolean("afgerond").default(false).notNull(),
   aangemaaktOp: timestamp("aangemaakt_op").defaultNow().notNull(),
 });
 

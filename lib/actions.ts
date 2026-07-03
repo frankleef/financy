@@ -2,7 +2,6 @@
 
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { maanden, potjes, type Categorie, type PotjeType } from "@/drizzle/schema";
@@ -91,28 +90,6 @@ export async function maakPotje(input: {
   return { id: nieuwPotje.id };
 }
 
-export async function maakPotjeForm(
-  maandId: number,
-  categorie: Categorie,
-  periode: string,
-  formData: FormData
-) {
-  const naam = String(formData.get("naam") ?? "");
-  const type = (String(formData.get("type") ?? "vast") === "variabel" ? "variabel" : "vast") as PotjeType;
-  const bedragRuw = String(formData.get("bedrag") ?? "").replace(",", ".").trim();
-  const bedrag = bedragRuw ? Number(bedragRuw) : null;
-
-  await maakPotje({
-    maandId,
-    naam,
-    categorie,
-    type,
-    bedrag: bedrag !== null && !Number.isNaN(bedrag) ? bedrag : null,
-  });
-
-  redirect(`/overzicht?periode=${periode}`);
-}
-
 export async function updatePotje(input: {
   potjeId: number;
   naam: string;
@@ -131,22 +108,6 @@ export async function updatePotje(input: {
   revalidatePath("/overzicht");
 }
 
-export async function updatePotjeForm(potjeId: number, periode: string, formData: FormData) {
-  const naam = String(formData.get("naam") ?? "");
-  const type = (String(formData.get("type") ?? "vast") === "variabel" ? "variabel" : "vast") as PotjeType;
-  const bedragRuw = String(formData.get("bedrag") ?? "").replace(",", ".").trim();
-  const bedrag = bedragRuw ? Number(bedragRuw) : null;
-
-  await updatePotje({
-    potjeId,
-    naam,
-    type,
-    bedrag: bedrag !== null && !Number.isNaN(bedrag) ? bedrag : null,
-  });
-
-  redirect(`/overzicht?periode=${periode}`);
-}
-
 export async function verwijderPotje(potjeId: number) {
   await requireSession();
   await db.delete(potjes).where(eq(potjes.id, potjeId));
@@ -156,5 +117,11 @@ export async function verwijderPotje(potjeId: number) {
 export async function toggleAfgevinkt(potjeId: number, afgevinkt: boolean) {
   await requireSession();
   await db.update(potjes).set({ afgevinkt }).where(eq(potjes.id, potjeId));
+  revalidatePath("/overzicht");
+}
+
+export async function zetMaandAfgerond(maandId: number, afgerond: boolean) {
+  await requireSession();
+  await db.update(maanden).set({ afgerond }).where(eq(maanden.id, maandId));
   revalidatePath("/overzicht");
 }

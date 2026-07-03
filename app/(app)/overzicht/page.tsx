@@ -3,16 +3,15 @@ import { standaardPeriode } from "@/lib/format";
 import { MonthHeader } from "./_components/MonthHeader";
 import { CategoryGroup } from "./_components/CategoryGroup";
 import { EmptyMaandState } from "./_components/EmptyMaandState";
-import type { Categorie } from "@/drizzle/schema";
+import { MaandAfrondenButton } from "./_components/MaandAfrondenButton";
 
 export default async function OverzichtPage({
   searchParams,
 }: {
-  searchParams: Promise<{ periode?: string; add?: string; edit?: string }>;
+  searchParams: Promise<{ periode?: string }>;
 }) {
   const params = await searchParams;
   const periode = params.periode ?? standaardPeriode(new Date());
-  const editingPotjeId = params.edit ? Number(params.edit) : null;
   const maand = await getMaandVoorPeriode(periode);
 
   if (!maand) {
@@ -34,19 +33,14 @@ export default async function OverzichtPage({
         ontvangen={ontvangen}
         toegewezen={toegewezen}
         resterend={resterend}
+        afgerond={maand.afgerond}
       />
       <div className="flex-1 px-3.5 pb-6">
         {groepen.map((groep) => (
-          <CategoryGroup
-            key={groep.categorie}
-            groep={groep}
-            maandId={maand.id}
-            periode={periode}
-            open={params.add === (groep.categorie as Categorie)}
-            editingPotjeId={editingPotjeId}
-          />
+          <CategoryGroup key={groep.categorie} groep={groep} maandId={maand.id} afgerond={maand.afgerond} />
         ))}
       </div>
+      <MaandAfrondenButton maandId={maand.id} afgerond={maand.afgerond} />
     </div>
   );
 }
