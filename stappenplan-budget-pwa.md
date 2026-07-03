@@ -43,10 +43,10 @@ Bij "dupliceer vorige maand als startpunt":
 
 - [x] **Stap 1 — Requirements vastleggen**: welke potjes zijn vast vs variabel, welke categorieën, wel/niet historie en grafieken over meerdere maanden nodig
 - [x] **Stap 2 — Project opzetten**: scaffold gemaakt (`budget-pwa-scaffold.zip`) — nog te doen: uitpakken, `npm install`, repo aanmaken op Gitea/GitHub en pushen
-- [x] **Stap 3 — Auth**: `lib/auth.ts` met Resend magic link en e-mail-whitelist staat klaar — nog te doen: Resend account, echte e-mailadressen in `.env.local`
-- [x] **Stap 4 — Database + schema**: `drizzle/schema.ts` met `maanden` en `potjes` staat klaar — nog te doen: Neon/Vercel Postgres database aanmaken, `npm run db:push`
-- [x] **Stap 5 — Core features**: maand aanmaken, potjes toevoegen/bewerken, dupliceren met vast/variabel-logica, vinkjes
-- [x] **Stap 6 — PWA-laag**: manifest, iconen, service worker voor installeerbaarheid op telefoon
+- [x] **Stap 3 — Auth**: `lib/auth.ts` met Resend magic link en e-mail-whitelist, incl. Drizzle-adapter (`users`/`accounts`/`sessions`/`verificationTokens`) — zonder adapter weigerde Auth.js te starten, dit was in de scaffold nog niet gefixt. Inlogscherm (`/inloggen`) en check-je-mail-bevestiging gebouwd en end-to-end getest (echte magic-link mail verstuurd + verificatietoken in DB bevestigd)
+- [x] **Stap 4 — Database + schema**: `drizzle/schema.ts` met `maanden` en `potjes`, Neon-database staat live, `npm run db:push` gedraaid
+- [x] **Stap 5 — Core features**: maandoverzicht (`/overzicht`), potjes toevoegen (inline formulier) en vinkjes zijn gebouwd en getest tegen de echte database. Dupliceren volgt de afgesproken regels: netto inkomen nooit gekopieerd, `vast`-bedrag wel gekopieerd, `variabel`-bedrag leeggemaakt, vinkjes altijd gereset. Bewerken/verwijderen van een bestaand potje (bedrag aanpassen na aanmaken) is nog niet gebouwd — stond niet in de meegeleverde designs
+- [x] **Stap 6 — PWA-laag**: manifest + iconen (`icon-192.png`/`icon-512.png`, gegenereerd uit het PotMark-beeldmerk) + service worker, minimale tab-bar (overzicht/jaaroverzicht/instellingen) en instellingen-scherm (uitloggen). Jaaroverzicht is bewust een placeholder — bouwen we later
 - [ ] **Stap 7 — Deploy**: Vercel + Neon (via Vercel Storage-tab) + Resend (of Coolify/Dokploy op eigen server)
 - [ ] **Stap 8 — Overboek-workflow**: periodieke overboekingen instellen bij ING voor vaste potjes, checklist-view in app voor de rest
 
